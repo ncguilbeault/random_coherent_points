@@ -150,8 +150,8 @@
                     </gl:ShaderUniforms>
                     <gl:BufferBindings />
                     <gl:FramebufferAttachments />
-                    <gl:VertexShader>lines.vert</gl:VertexShader>
-                    <gl:FragmentShader>lines.frag</gl:FragmentShader>
+                    <gl:VertexShader>shaders/lines.vert</gl:VertexShader>
+                    <gl:FragmentShader>shaders/lines.frag</gl:FragmentShader>
                     <gl:MeshName />
                   </gl:ShaderConfiguration>
                   <gl:ShaderConfiguration xsi:type="gl:Material">
@@ -170,8 +170,8 @@
                     </gl:ShaderUniforms>
                     <gl:BufferBindings />
                     <gl:FramebufferAttachments />
-                    <gl:VertexShader>particles.vert</gl:VertexShader>
-                    <gl:FragmentShader>particles.frag</gl:FragmentShader>
+                    <gl:VertexShader>shaders/particles.vert</gl:VertexShader>
+                    <gl:FragmentShader>shaders/particles.frag</gl:FragmentShader>
                     <gl:MeshName />
                   </gl:ShaderConfiguration>
                   <gl:ShaderConfiguration xsi:type="gl:Material">
@@ -187,8 +187,8 @@
                       </gl:BufferBinding>
                     </gl:BufferBindings>
                     <gl:FramebufferAttachments />
-                    <gl:VertexShader>timer.vert</gl:VertexShader>
-                    <gl:FragmentShader>timer.frag</gl:FragmentShader>
+                    <gl:VertexShader>shaders/timer.vert</gl:VertexShader>
+                    <gl:FragmentShader>shaders/timer.frag</gl:FragmentShader>
                     <gl:MeshName>quad2</gl:MeshName>
                   </gl:ShaderConfiguration>
                   <gl:ShaderConfiguration xsi:type="gl:Material">
@@ -204,8 +204,8 @@
                       </gl:BufferBinding>
                     </gl:BufferBindings>
                     <gl:FramebufferAttachments />
-                    <gl:VertexShader>text.vert</gl:VertexShader>
-                    <gl:FragmentShader>text.frag</gl:FragmentShader>
+                    <gl:VertexShader>shaders/text.vert</gl:VertexShader>
+                    <gl:FragmentShader>shaders/text.frag</gl:FragmentShader>
                     <gl:MeshName>quad</gl:MeshName>
                   </gl:ShaderConfiguration>
                 </gl:Shaders>
@@ -232,7 +232,7 @@
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="gli:NormalizedDeviceCoordinates" />
             </Expression>
-            <Expression xsi:type="PublishSubject">
+            <Expression xsi:type="BehaviorSubject">
               <Name>NormalizedMouseCoords</Name>
             </Expression>
             <Expression xsi:type="Combinator">
@@ -240,7 +240,7 @@
                 <gli:Button>Left</gli:Button>
               </Combinator>
             </Expression>
-            <Expression xsi:type="BehaviorSubject">
+            <Expression xsi:type="PublishSubject">
               <Name>MouseClick</Name>
             </Expression>
             <Expression xsi:type="Combinator">
@@ -765,7 +765,7 @@
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="StringProperty">
-                <Value>nicholas-guilbeault</Value>
+                <Value>NICHOLAS-GUILBEAULT</Value>
               </Combinator>
             </Expression>
             <Expression xsi:type="Condition">
@@ -1718,13 +1718,13 @@ def process(it):
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="drw:AddText">
-                <drw:Text>1.45</drw:Text>
+                <drw:Text>0.40</drw:Text>
                 <drw:Alignment>Near</drw:Alignment>
                 <drw:LineAlignment>Center</drw:LineAlignment>
                 <drw:TextRenderingHint>AntiAlias</drw:TextRenderingHint>
                 <drw:Color>
-                  <drw:Val0>255</drw:Val0>
-                  <drw:Val1>255</drw:Val1>
+                  <drw:Val0>0</drw:Val0>
+                  <drw:Val1>0</drw:Val1>
                   <drw:Val2>255</drw:Val2>
                   <drw:Val3>255</drw:Val3>
                 </drw:Color>
@@ -1745,7 +1745,7 @@ def process(it):
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="drw:AddText">
-                <drw:Text>099</drw:Text>
+                <drw:Text>029</drw:Text>
                 <drw:Alignment>Far</drw:Alignment>
                 <drw:LineAlignment>Center</drw:LineAlignment>
                 <drw:TextRenderingHint>AntiAlias</drw:TextRenderingHint>
@@ -1885,6 +1885,45 @@ def process(it):
             <Expression xsi:type="SubscribeSubject">
               <Name>MouseClick</Name>
             </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>TrialTime</Name>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Skip">
+                <rx:Count>1</rx:Count>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>TrialDuration</Name>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:WithLatestFrom" />
+            </Expression>
+            <Expression xsi:type="Condition">
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="WorkflowInput">
+                    <Name>Source1</Name>
+                  </Expression>
+                  <Expression xsi:type="scr:ExpressionTransform">
+                    <scr:Expression>it.Item1 &lt; it.Item2.TotalSeconds - 0.5</scr:Expression>
+                  </Expression>
+                  <Expression xsi:type="WorkflowOutput" />
+                </Nodes>
+                <Edges>
+                  <Edge From="0" To="1" Label="Source1" />
+                  <Edge From="1" To="2" Label="Source1" />
+                </Edges>
+              </Workflow>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Take">
+                <rx:Count>1</rx:Count>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:SkipUntil" />
+            </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="rx:WithLatestFrom" />
             </Expression>
@@ -2023,9 +2062,9 @@ def process(it):
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="gl:CreateVector3">
-                      <gl:X>0.992971659</gl:X>
-                      <gl:Y>-0.346768856</gl:Y>
-                      <gl:Z>7.031668</gl:Z>
+                      <gl:X>-0.740917146</gl:X>
+                      <gl:Y>0.319462776</gl:Y>
+                      <gl:Z>10.0441866</gl:Z>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
@@ -2130,16 +2169,23 @@ def process(it):
             <Edge From="68" To="71" Label="Source1" />
             <Edge From="69" To="70" Label="Source1" />
             <Edge From="70" To="71" Label="Source2" />
-            <Edge From="71" To="73" Label="Source2" />
-            <Edge From="72" To="73" Label="Source1" />
+            <Edge From="71" To="80" Label="Source2" />
+            <Edge From="72" To="79" Label="Source1" />
             <Edge From="73" To="74" Label="Source1" />
-            <Edge From="73" To="76" Label="Source1" />
-            <Edge From="74" To="75" Label="Source1" />
+            <Edge From="74" To="76" Label="Source1" />
+            <Edge From="75" To="76" Label="Source2" />
             <Edge From="76" To="77" Label="Source1" />
-            <Edge From="78" To="79" Label="Source1" />
+            <Edge From="77" To="78" Label="Source1" />
+            <Edge From="78" To="79" Label="Source2" />
             <Edge From="79" To="80" Label="Source1" />
             <Edge From="80" To="81" Label="Source1" />
-            <Edge From="82" To="83" Label="Source1" />
+            <Edge From="80" To="83" Label="Source1" />
+            <Edge From="81" To="82" Label="Source1" />
+            <Edge From="83" To="84" Label="Source1" />
+            <Edge From="85" To="86" Label="Source1" />
+            <Edge From="86" To="87" Label="Source1" />
+            <Edge From="87" To="88" Label="Source1" />
+            <Edge From="89" To="90" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
@@ -2596,7 +2642,7 @@ def process(it):
 )</scr:Expression>
             </Expression>
             <Expression xsi:type="io:CsvWriter">
-              <io:FileName>data/DATE-2022-04-22_TIME-01-27-01_nicholas-guilbeault_data.csv</io:FileName>
+              <io:FileName>data/DATE-2022-04-22_TIME-09-21-25_GUILBEAULT-NICHOLAS_data.csv</io:FileName>
               <io:Append>false</io:Append>
               <io:Overwrite>false</io:Overwrite>
               <io:Suffix>None</io:Suffix>
