@@ -5,6 +5,7 @@
                  xmlns:res="clr-namespace:Bonsai.Resources;assembly=Bonsai.System"
                  xmlns:gli="clr-namespace:Bonsai.Shaders.Input;assembly=Bonsai.Shaders"
                  xmlns:p1="clr-namespace:OpenCV.Net;assembly=OpenCV.Net"
+                 xmlns:drw="clr-namespace:Bonsai.Vision.Drawing;assembly=Bonsai.Vision"
                  xmlns:wie="clr-namespace:Bonsai.Windows.Input;assembly=Bonsai.Windows.Input"
                  xmlns:num="clr-namespace:Bonsai.Numerics;assembly=Bonsai.Numerics"
                  xmlns:p2="clr-namespace:Bonsai.Numerics.Distributions;assembly=Bonsai.Numerics"
@@ -13,7 +14,6 @@
                  xmlns:scr="clr-namespace:Bonsai.Scripting;assembly=Bonsai.Scripting"
                  xmlns:p3="clr-namespace:OpenTK;assembly=OpenTK"
                  xmlns:sys="clr-namespace:System;assembly=mscorlib"
-                 xmlns:drw="clr-namespace:Bonsai.Vision.Drawing;assembly=Bonsai.Vision"
                  xmlns:cv="clr-namespace:Bonsai.Vision;assembly=Bonsai.Vision"
                  xmlns:io="clr-namespace:Bonsai.IO;assembly=Bonsai.System"
                  xmlns="https://bonsai-rx.org/2018/workflow">
@@ -245,7 +245,7 @@
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="FloatProperty">
-                <Value>0.2</Value>
+                <Value>0.1</Value>
               </Combinator>
             </Expression>
             <Expression xsi:type="Combinator">
@@ -256,7 +256,7 @@
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="FloatProperty">
-                <Value>-0.2</Value>
+                <Value>-0.4</Value>
               </Combinator>
             </Expression>
             <Expression xsi:type="Combinator">
@@ -267,7 +267,7 @@
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="FloatProperty">
-                <Value>0.05</Value>
+                <Value>0.02</Value>
               </Combinator>
             </Expression>
             <Expression xsi:type="Combinator">
@@ -278,7 +278,7 @@
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="FloatProperty">
-                <Value>0.45</Value>
+                <Value>0.48</Value>
               </Combinator>
             </Expression>
             <Expression xsi:type="Combinator">
@@ -307,6 +307,26 @@
                 <gl:InternalFormat>Rgba</gl:InternalFormat>
               </Combinator>
             </Expression>
+            <Expression xsi:type="PropertySource" TypeArguments="drw:CreateCanvas,p1:Size">
+              <MemberName>Size</MemberName>
+              <Value>
+                <Width>1000</Width>
+                <Height>1000</Height>
+              </Value>
+            </Expression>
+            <Expression xsi:type="BehaviorSubject">
+              <Name>FullCanvasSize</Name>
+            </Expression>
+            <Expression xsi:type="PropertySource" TypeArguments="drw:CreateCanvas,p1:Size">
+              <MemberName>Size</MemberName>
+              <Value>
+                <Width>200</Width>
+                <Height>40</Height>
+              </Value>
+            </Expression>
+            <Expression xsi:type="BehaviorSubject">
+              <Name>TimerCanvasSize</Name>
+            </Expression>
           </Nodes>
           <Edges>
             <Edge From="0" To="1" Label="Source1" />
@@ -324,6 +344,8 @@
             <Edge From="20" To="21" Label="Source1" />
             <Edge From="22" To="23" Label="Source1" />
             <Edge From="24" To="25" Label="Source1" />
+            <Edge From="26" To="27" Label="Source1" />
+            <Edge From="28" To="29" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
@@ -1004,12 +1026,8 @@
             <Expression xsi:type="SubscribeSubject">
               <Name>UpdateFrame</Name>
             </Expression>
-            <Expression xsi:type="PropertySource" TypeArguments="drw:CreateCanvas,p1:Size">
-              <MemberName>Size</MemberName>
-              <Value>
-                <Width>200</Width>
-                <Height>200</Height>
-              </Value>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>FullCanvasSize</Name>
             </Expression>
             <Expression xsi:type="PropertyMapping">
               <PropertyMappings>
@@ -1019,8 +1037,8 @@
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="drw:CreateCanvas">
                 <drw:Size>
-                  <drw:Width>200</drw:Width>
-                  <drw:Height>200</drw:Height>
+                  <drw:Width>1000</drw:Width>
+                  <drw:Height>1000</drw:Height>
                 </drw:Size>
                 <drw:Depth>U8</drw:Depth>
                 <drw:Channels>3</drw:Channels>
@@ -1052,10 +1070,10 @@
                   <drw:Val2>255</drw:Val2>
                   <drw:Val3>255</drw:Val3>
                 </drw:Color>
-                <drw:Font>Microsoft Sans Serif, 8pt</drw:Font>
+                <drw:Font>Microsoft Sans Serif, 22pt</drw:Font>
                 <drw:Origin>
-                  <drw:X>100</drw:X>
-                  <drw:Y>100</drw:Y>
+                  <drw:X>500</drw:X>
+                  <drw:Y>500</drw:Y>
                 </drw:Origin>
               </Combinator>
             </Expression>
@@ -1126,12 +1144,8 @@
             <Expression xsi:type="SubscribeSubject">
               <Name>UpdateFrame</Name>
             </Expression>
-            <Expression xsi:type="PropertySource" TypeArguments="drw:CreateCanvas,p1:Size">
-              <MemberName>Size</MemberName>
-              <Value>
-                <Width>200</Width>
-                <Height>200</Height>
-              </Value>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>FullCanvasSize</Name>
             </Expression>
             <Expression xsi:type="PropertyMapping">
               <PropertyMappings>
@@ -1141,8 +1155,8 @@
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="drw:CreateCanvas">
                 <drw:Size>
-                  <drw:Width>200</drw:Width>
-                  <drw:Height>200</drw:Height>
+                  <drw:Width>1000</drw:Width>
+                  <drw:Height>1000</drw:Height>
                 </drw:Size>
                 <drw:Depth>U8</drw:Depth>
                 <drw:Channels>3</drw:Channels>
@@ -1476,18 +1490,6 @@ def process(it):
             <Expression xsi:type="MulticastSubject">
               <Name>PointArray</Name>
             </Expression>
-            <Expression xsi:type="PropertySource" TypeArguments="drw:CreateCanvas,p1:Size">
-              <MemberName>Size</MemberName>
-              <Value>
-                <Width>100</Width>
-                <Height>20</Height>
-              </Value>
-            </Expression>
-            <Expression xsi:type="PropertyMapping">
-              <PropertyMappings>
-                <Property Name="Size" />
-              </PropertyMappings>
-            </Expression>
             <Expression xsi:type="SubscribeSubject">
               <Name>TrialTime</Name>
             </Expression>
@@ -1504,30 +1506,6 @@ def process(it):
             </Expression>
             <Expression xsi:type="SubscribeSubject">
               <Name>RenderFrame</Name>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="drw:CreateCanvas">
-                <drw:Size>
-                  <drw:Width>100</drw:Width>
-                  <drw:Height>20</drw:Height>
-                </drw:Size>
-                <drw:Depth>U8</drw:Depth>
-                <drw:Channels>3</drw:Channels>
-                <drw:Color>
-                  <drw:Val0>0</drw:Val0>
-                  <drw:Val1>0</drw:Val1>
-                  <drw:Val2>0</drw:Val2>
-                  <drw:Val3>0</drw:Val3>
-                </drw:Color>
-              </Combinator>
-            </Expression>
-            <Expression xsi:type="scr:ExpressionTransform">
-              <scr:Expression>new (5 as X, it.Height / 2 as Y)</scr:Expression>
-            </Expression>
-            <Expression xsi:type="PropertyMapping">
-              <PropertyMappings>
-                <Property Name="Origin" Selector="X,Y" />
-              </PropertyMappings>
             </Expression>
             <Expression xsi:type="SubscribeSubject">
               <Name>TrialNum</Name>
@@ -1572,7 +1550,7 @@ def process(it):
                         </Expression>
                         <Expression xsi:type="GreaterThan">
                           <Operand xsi:type="DoubleProperty">
-                            <Value>1</Value>
+                            <Value>20</Value>
                           </Operand>
                         </Expression>
                         <Expression xsi:type="WorkflowOutput" />
@@ -1603,7 +1581,7 @@ def process(it):
                         </Expression>
                         <Expression xsi:type="LessThanOrEqual">
                           <Operand xsi:type="DoubleProperty">
-                            <Value>1</Value>
+                            <Value>20</Value>
                           </Operand>
                         </Expression>
                         <Expression xsi:type="WorkflowOutput" />
@@ -1716,22 +1694,54 @@ def process(it):
                 <Property Name="Color" Selector="X,Y,Z,W" />
               </PropertyMappings>
             </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>TimerCanvasSize</Name>
+            </Expression>
+            <Expression xsi:type="PropertyMapping">
+              <PropertyMappings>
+                <Property Name="Size" />
+              </PropertyMappings>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="drw:CreateCanvas">
+                <drw:Size>
+                  <drw:Width>200</drw:Width>
+                  <drw:Height>40</drw:Height>
+                </drw:Size>
+                <drw:Depth>U8</drw:Depth>
+                <drw:Channels>3</drw:Channels>
+                <drw:Color>
+                  <drw:Val0>0</drw:Val0>
+                  <drw:Val1>0</drw:Val1>
+                  <drw:Val2>0</drw:Val2>
+                  <drw:Val3>0</drw:Val3>
+                </drw:Color>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="scr:ExpressionTransform">
+              <scr:Expression>new (5 as X, it.Height / 2 as Y)</scr:Expression>
+            </Expression>
+            <Expression xsi:type="PropertyMapping">
+              <PropertyMappings>
+                <Property Name="Origin" Selector="X,Y" />
+              </PropertyMappings>
+            </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="drw:AddText">
-                <drw:Text>0.40</drw:Text>
+                <drw:Text>45.58</drw:Text>
                 <drw:Alignment>Near</drw:Alignment>
                 <drw:LineAlignment>Center</drw:LineAlignment>
                 <drw:TextRenderingHint>AntiAlias</drw:TextRenderingHint>
                 <drw:Color>
-                  <drw:Val0>0</drw:Val0>
-                  <drw:Val1>0</drw:Val1>
+                  <drw:Val0>255</drw:Val0>
+                  <drw:Val1>255</drw:Val1>
                   <drw:Val2>255</drw:Val2>
                   <drw:Val3>255</drw:Val3>
                 </drw:Color>
-                <drw:Font>Microsoft Sans Serif, 8pt</drw:Font>
+                <drw:Font>Microsoft Sans Serif, 14pt</drw:Font>
                 <drw:Origin>
                   <drw:X>5</drw:X>
-                  <drw:Y>10</drw:Y>
+                  <drw:Y>20</drw:Y>
                 </drw:Origin>
               </Combinator>
             </Expression>
@@ -1745,7 +1755,7 @@ def process(it):
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="drw:AddText">
-                <drw:Text>029</drw:Text>
+                <drw:Text>000</drw:Text>
                 <drw:Alignment>Far</drw:Alignment>
                 <drw:LineAlignment>Center</drw:LineAlignment>
                 <drw:TextRenderingHint>AntiAlias</drw:TextRenderingHint>
@@ -1755,10 +1765,10 @@ def process(it):
                   <drw:Val2>0</drw:Val2>
                   <drw:Val3>255</drw:Val3>
                 </drw:Color>
-                <drw:Font>Microsoft Sans Serif, 8pt</drw:Font>
+                <drw:Font>Microsoft Sans Serif, 14pt</drw:Font>
                 <drw:Origin>
-                  <drw:X>95</drw:X>
-                  <drw:Y>10</drw:Y>
+                  <drw:X>195</drw:X>
+                  <drw:Y>20</drw:Y>
                 </drw:Origin>
               </Combinator>
             </Expression>
@@ -2062,9 +2072,9 @@ def process(it):
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="gl:CreateVector3">
-                      <gl:X>-0.740917146</gl:X>
-                      <gl:Y>0.319462776</gl:Y>
-                      <gl:Z>10.0441866</gl:Z>
+                      <gl:X>-0.7170451</gl:X>
+                      <gl:Y>0.128674641</gl:Y>
+                      <gl:Z>15.3286676</gl:Z>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
@@ -2117,25 +2127,25 @@ def process(it):
             <Edge From="17" To="18" Label="Source1" />
             <Edge From="18" To="19" Label="Source1" />
             <Edge From="20" To="21" Label="Source1" />
-            <Edge From="20" To="28" Label="Source1" />
-            <Edge From="20" To="39" Label="Source1" />
-            <Edge From="21" To="27" Label="Source2" />
-            <Edge From="22" To="23" Label="Source1" />
-            <Edge From="23" To="24" Label="Source1" />
-            <Edge From="24" To="38" Label="Source3" />
-            <Edge From="25" To="36" Label="Source1" />
+            <Edge From="21" To="22" Label="Source1" />
+            <Edge From="22" To="38" Label="Source3" />
+            <Edge From="23" To="31" Label="Source1" />
+            <Edge From="24" To="35" Label="Source1" />
+            <Edge From="25" To="26" Label="Source1" />
             <Edge From="26" To="27" Label="Source1" />
-            <Edge From="27" To="38" Label="Source1" />
+            <Edge From="27" To="41" Label="Source3" />
             <Edge From="28" To="29" Label="Source1" />
-            <Edge From="29" To="38" Label="Source2" />
-            <Edge From="30" To="31" Label="Source1" />
+            <Edge From="29" To="30" Label="Source1" />
+            <Edge From="30" To="31" Label="Source2" />
             <Edge From="31" To="32" Label="Source1" />
-            <Edge From="32" To="41" Label="Source3" />
+            <Edge From="32" To="38" Label="Source4" />
             <Edge From="33" To="34" Label="Source1" />
-            <Edge From="34" To="35" Label="Source1" />
-            <Edge From="35" To="36" Label="Source2" />
+            <Edge From="33" To="36" Label="Source1" />
+            <Edge From="33" To="39" Label="Source1" />
+            <Edge From="34" To="35" Label="Source2" />
+            <Edge From="35" To="38" Label="Source1" />
             <Edge From="36" To="37" Label="Source1" />
-            <Edge From="37" To="38" Label="Source4" />
+            <Edge From="37" To="38" Label="Source2" />
             <Edge From="38" To="41" Label="Source1" />
             <Edge From="39" To="40" Label="Source1" />
             <Edge From="40" To="41" Label="Source2" />
@@ -2298,6 +2308,14 @@ def process(it):
               </Combinator>
             </Expression>
             <Expression xsi:type="Combinator">
+              <Combinator xsi:type="IntProperty">
+                <Value>0</Value>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Merge" />
+            </Expression>
+            <Expression xsi:type="Combinator">
               <Combinator xsi:type="rx:TakeUntil" />
             </Expression>
             <Expression xsi:type="Combinator">
@@ -2316,15 +2334,17 @@ def process(it):
             <Expression xsi:type="WorkflowOutput" />
           </Nodes>
           <Edges>
-            <Edge From="0" To="5" Label="Source1" />
+            <Edge From="0" To="6" Label="Source1" />
             <Edge From="1" To="3" Label="Source1" />
             <Edge From="2" To="3" Label="Source2" />
             <Edge From="3" To="4" Label="Source1" />
-            <Edge From="4" To="5" Label="Source2" />
-            <Edge From="5" To="6" Label="Source1" />
+            <Edge From="4" To="7" Label="Source2" />
+            <Edge From="5" To="6" Label="Source2" />
             <Edge From="6" To="7" Label="Source1" />
             <Edge From="7" To="8" Label="Source1" />
             <Edge From="8" To="9" Label="Source1" />
+            <Edge From="9" To="10" Label="Source1" />
+            <Edge From="10" To="11" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
@@ -2550,88 +2570,137 @@ def process(it):
                 </Edges>
               </Workflow>
             </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>Folder</Name>
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="SubscribeSubject">
+                <Name>Folder</Name>
+              </Builder>
             </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>TimestampPrefix</Name>
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="SubscribeSubject">
+                <Name>TimestampPrefix</Name>
+              </Builder>
             </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>BaseFilename</Name>
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="SubscribeSubject">
+                <Name>BaseFilename</Name>
+              </Builder>
             </Expression>
-            <Expression xsi:type="Add">
-              <Operand xsi:type="StringProperty">
-                <Value>data.csv</Value>
-              </Operand>
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="Add">
+                <Operand xsi:type="StringProperty">
+                  <Value>data.csv</Value>
+                </Operand>
+              </Builder>
             </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:CombineLatest" />
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="Combinator">
+                <Combinator xsi:type="rx:CombineLatest" />
+              </Builder>
             </Expression>
-            <Expression xsi:type="Add" />
-            <Expression xsi:type="PropertyMapping">
-              <PropertyMappings>
-                <Property Name="FileName" />
-              </PropertyMappings>
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="Add" />
             </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>OverwriteExistingFiles</Name>
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="PropertyMapping">
+                <PropertyMappings>
+                  <Property Name="FileName" />
+                </PropertyMappings>
+              </Builder>
             </Expression>
-            <Expression xsi:type="PropertyMapping">
-              <PropertyMappings>
-                <Property Name="Overwrite" />
-              </PropertyMappings>
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="SubscribeSubject">
+                <Name>OverwriteExistingFiles</Name>
+              </Builder>
             </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>TrialNum</Name>
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="PropertyMapping">
+                <PropertyMappings>
+                  <Property Name="Overwrite" />
+                </PropertyMappings>
+              </Builder>
             </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:Skip">
-                <rx:Count>1</rx:Count>
-              </Combinator>
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="SubscribeSubject">
+                <Name>TrialNum</Name>
+              </Builder>
             </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>TrialChoice</Name>
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="Combinator">
+                <Combinator xsi:type="rx:Skip">
+                  <rx:Count>1</rx:Count>
+                </Combinator>
+              </Builder>
             </Expression>
-            <Expression xsi:type="MemberSelector">
-              <Selector>Item1</Selector>
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="SubscribeSubject">
+                <Name>TrialChoice</Name>
+              </Builder>
             </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="num:RadianToDegree" />
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="MemberSelector">
+                <Selector>Item1</Selector>
+              </Builder>
             </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>TrialChoice</Name>
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="Combinator">
+                <Combinator xsi:type="num:RadianToDegree" />
+              </Builder>
             </Expression>
-            <Expression xsi:type="MemberSelector">
-              <Selector>Item2</Selector>
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="SubscribeSubject">
+                <Name>TrialChoice</Name>
+              </Builder>
             </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>ProportionCoherent</Name>
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="MemberSelector">
+                <Selector>Item2</Selector>
+              </Builder>
             </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>Step</Name>
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="SubscribeSubject">
+                <Name>ProportionCoherent</Name>
+              </Builder>
             </Expression>
-            <Expression xsi:type="Multiply">
-              <Operand xsi:type="FloatProperty">
-                <Value>60</Value>
-              </Operand>
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="SubscribeSubject">
+                <Name>Step</Name>
+              </Builder>
             </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>Direction</Name>
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="Multiply">
+                <Operand xsi:type="FloatProperty">
+                  <Value>60</Value>
+                </Operand>
+              </Builder>
             </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="num:RadianToDegree" />
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="SubscribeSubject">
+                <Name>Direction</Name>
+              </Builder>
             </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>TrialComplete</Name>
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="Combinator">
+                <Combinator xsi:type="num:RadianToDegree" />
+              </Builder>
             </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:Zip" />
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="SubscribeSubject">
+                <Name>TrialComplete</Name>
+              </Builder>
             </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:Zip" />
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="Combinator">
+                <Combinator xsi:type="rx:Zip" />
+              </Builder>
             </Expression>
-            <Expression xsi:type="scr:ExpressionTransform">
-              <scr:Expression>new(
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="Combinator">
+                <Combinator xsi:type="rx:Zip" />
+              </Builder>
+            </Expression>
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="scr:ExpressionTransform">
+                <scr:Expression>new(
   it.Item1 as TrialNum, 
   it.Item2.Item1 as ChoiceDirection,
   it.Item2.Item2 as ChoiceMagnitude,
@@ -2640,13 +2709,16 @@ def process(it):
   it.Item2.Item5 as Magnitude,
   it.Item2.Item6 as Response
 )</scr:Expression>
+              </Builder>
             </Expression>
-            <Expression xsi:type="io:CsvWriter">
-              <io:FileName>data/DATE-2022-04-22_TIME-09-21-25_GUILBEAULT-NICHOLAS_data.csv</io:FileName>
-              <io:Append>false</io:Append>
-              <io:Overwrite>false</io:Overwrite>
-              <io:Suffix>None</io:Suffix>
-              <io:IncludeHeader>true</io:IncludeHeader>
+            <Expression xsi:type="Disable">
+              <Builder xsi:type="io:CsvWriter">
+                <io:FileName>data/DATE-2022-04-22_TIME-10-50-54_NICHOLAS-GUILBEAULT_data.csv</io:FileName>
+                <io:Append>false</io:Append>
+                <io:Overwrite>false</io:Overwrite>
+                <io:Suffix>None</io:Suffix>
+                <io:IncludeHeader>true</io:IncludeHeader>
+              </Builder>
             </Expression>
           </Nodes>
           <Edges>
@@ -2744,12 +2816,8 @@ def process(it):
             <Expression xsi:type="SubscribeSubject">
               <Name>UpdateFrame</Name>
             </Expression>
-            <Expression xsi:type="PropertySource" TypeArguments="drw:CreateCanvas,p1:Size">
-              <MemberName>Size</MemberName>
-              <Value>
-                <Width>200</Width>
-                <Height>200</Height>
-              </Value>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>FullCanvasSize</Name>
             </Expression>
             <Expression xsi:type="PropertyMapping">
               <PropertyMappings>
@@ -2759,8 +2827,8 @@ def process(it):
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="drw:CreateCanvas">
                 <drw:Size>
-                  <drw:Width>200</drw:Width>
-                  <drw:Height>200</drw:Height>
+                  <drw:Width>1000</drw:Width>
+                  <drw:Height>1000</drw:Height>
                 </drw:Size>
                 <drw:Depth>U8</drw:Depth>
                 <drw:Channels>3</drw:Channels>
@@ -2792,10 +2860,10 @@ def process(it):
                   <drw:Val2>255</drw:Val2>
                   <drw:Val3>255</drw:Val3>
                 </drw:Color>
-                <drw:Font>Microsoft Sans Serif, 8pt</drw:Font>
+                <drw:Font>Microsoft Sans Serif, 22pt</drw:Font>
                 <drw:Origin>
-                  <drw:X>100</drw:X>
-                  <drw:Y>100</drw:Y>
+                  <drw:X>500</drw:X>
+                  <drw:Y>500</drw:Y>
                 </drw:Origin>
               </Combinator>
             </Expression>
@@ -2822,11 +2890,19 @@ def process(it):
             <Expression xsi:type="SubscribeSubject">
               <Name>UpdateFrame</Name>
             </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>TimerCanvasSize</Name>
+            </Expression>
+            <Expression xsi:type="PropertyMapping">
+              <PropertyMappings>
+                <Property Name="Size" />
+              </PropertyMappings>
+            </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="drw:CreateCanvas">
                 <drw:Size>
-                  <drw:Width>100</drw:Width>
-                  <drw:Height>20</drw:Height>
+                  <drw:Width>200</drw:Width>
+                  <drw:Height>40</drw:Height>
                 </drw:Size>
                 <drw:Depth>U8</drw:Depth>
                 <drw:Channels>3</drw:Channels>
@@ -2861,9 +2937,11 @@ def process(it):
             <Edge From="13" To="14" Label="Source1" />
             <Edge From="14" To="15" Label="Source1" />
             <Edge From="15" To="16" Label="Source1" />
-            <Edge From="17" To="18" Label="Source1" />
+            <Edge From="17" To="20" Label="Source1" />
             <Edge From="18" To="19" Label="Source1" />
-            <Edge From="19" To="20" Label="Source1" />
+            <Edge From="19" To="20" Label="Source2" />
+            <Edge From="20" To="21" Label="Source1" />
+            <Edge From="21" To="22" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
